@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hadiah untuk Jeyden 💙</title>
+<style>
+:root{--b:#2878d8;--d:#124d99;--p:#eaf6ff;--t:#18324d}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:var(--t);background:linear-gradient(145deg,#eaf7ff,#bfe1ff,#eef9ff);min-height:100vh;overflow-x:hidden}
+.screen{min-height:100vh;display:none;align-items:center;justify-content:center;padding:22px;text-align:center}.screen.active{display:flex;animation:f .55s ease}
+.card{width:min(94vw,650px);padding:32px 22px;border-radius:30px;background:#ffffffcf;backdrop-filter:blur(15px);box-shadow:0 20px 60px #1452a022;position:relative;z-index:2}
+h1{font-size:clamp(2rem,9vw,3.7rem);color:var(--d);margin:12px 0}h2{color:var(--d);font-size:clamp(1.55rem,6vw,2.45rem)}
+p{line-height:1.75;color:#4b637b}button{border:0;border-radius:999px;padding:13px 23px;margin:7px 4px;font-weight:700;font-size:1rem;cursor:pointer;transition:.2s;box-shadow:0 7px 18px #1452a018}
+button:hover{transform:translateY(-3px)}.primary{background:var(--b);color:#fff}.white{background:#fff;color:var(--d)}
+.icon{font-size:5rem;animation:float 2.2s infinite}.mini{font-size:.82rem;opacity:.7}
+.boxes{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:22px 0}.box{width:145px;height:150px;border-radius:24px;background:linear-gradient(145deg,#5da5eb,#1f6fc7);color:#fff;font-size:4rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 25px #1452a026;transition:.25s}.box:hover{transform:translateY(-7px) rotate(-2deg)}
+.result{display:none;margin:18px 0;padding:18px;border-radius:18px;background:#e8f5ff;color:var(--d);font-weight:700}
+.game{background:#f5fbff;border:2px solid #d7edff;border-radius:20px;padding:15px;margin:18px 0}.area{height:240px;background:linear-gradient(#e4f5ff,#c8e9ff);border-radius:15px;position:relative;overflow:hidden}.heart{position:absolute;font-size:32px;cursor:pointer;user-select:none;animation:pop .18s}.score{font-weight:bold;color:var(--d);margin:8px}
+.qr{width:min(75vw,310px);margin:20px auto;display:block;border-radius:22px;background:white;padding:12px;box-shadow:0 15px 35px #1452a022}
+.secret{background:#edf8ff;border-radius:20px;padding:18px;margin-top:15px}
+.float{position:fixed;z-index:1;opacity:.45;animation:rise linear infinite}
+@keyframes f{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}@keyframes float{50%{transform:translateY(-12px)}}@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}@keyframes rise{from{transform:translateY(110vh)}to{transform:translateY(-15vh)}}
+</style>
+</head>
+<body>
+<div id="decor"></div>
+
+<section class="screen active" id="s1"><div class="card">
+<div class="icon">💙</div>
+<p class="mini">sebuah hadiah kecil dari seseorang yang spesial</p>
+<h1>Untuk Jeyden sayangku</h1>
+<p style="font-size:1.15rem"><b>dari Desi 🤍</b></p>
+<br>
+<p>Ga ada alasan khusus kok... cuma pengen bikin hari Jeyden sedikit lebih menyenangkan. ☁️💙</p>
+<button class="primary" onclick="next(2)">Buka hadiah 🎁</button>
+</div></section>
+
+<section class="screen" id="s2"><div class="card">
+<div style="font-size:3.5rem">🌤️💙🌤️</div>
+<h2>Hai, Jeyden.</h2>
+<p>Kalau hari ini lagi capek, jangan terlalu keras sama diri sendiri ya.</p>
+<p>Istirahat boleh. Males sebentar juga boleh. Yang ga boleh cuma lupa menjaga diri sendiri. 😭</p>
+<p><b>Semoga hari ini ada sedikit hal yang bikin Jeyden tersenyum.</b> 💙</p>
+<button class="primary" onclick="next(3)">Cari hadiahnya 👀</button>
+</div></section>
+
+<section class="screen" id="s3"><div class="card">
+<h2>🎁 Pilih satu kotak</h2>
+<p>Salah pilih ga apa-apa... mungkin. 🗿</p>
+<div class="boxes">
+<div class="box" onclick="chooseBox(1)">🎁</div>
+<div class="box" onclick="chooseBox(2)">🎁</div>
+<div class="box" onclick="chooseBox(3)">🎁</div>
+</div>
+<div class="result" id="boxResult"></div>
+<button class="primary" id="boxNext" style="display:none" onclick="next(4)">Lanjut 🎮</button>
+</div></section>
+
+<section class="screen" id="s4"><div class="card">
+<h2>💙 Tangkap Hati</h2>
+<p>Klik hati yang muncul sebanyak mungkin dalam 15 detik!</p>
+<div class="score">💙 <span id="score">0</span> · ⏱️ <span id="time">15</span></div>
+<div class="game"><div class="area" id="area"></div></div>
+<button class="primary" onclick="startGame()">Mulai / ulangi 💫</button>
+<p class="mini" id="gameMsg"></p>
+<button class="white" onclick="next(5)">Skip, aku males 🗿</button>
+</div></section>
+
+<section class="screen" id="s5"><div class="card">
+<div style="font-size:4rem">☁️💙</div>
+<h1>Semangat ya, Jeyden.</h1>
+<p>Apapun yang lagi Jeyden hadapi, semoga semuanya perlahan jadi lebih ringan.</p>
+<p>Kalau capek, istirahat. Kalau pusing, pelan-pelan. Kalau lagi senang, jangan lupa dinikmati.</p>
+<br>
+<h2 style="font-size:1.45rem">Dan kalau hari ini terasa biasa saja...</h2>
+<p>semoga hadiah kecil dari Desi ini bisa bikin harinya sedikit lebih biru—dalam arti yang baik. 💙</p>
+<button class="primary" onclick="next(6)">Ada satu rahasia lagi 🤫</button>
+</div></section>
+
+<section class="screen" id="s6"><div class="card">
+<div style="font-size:4rem">💗</div>
+<h2>Scan kalau berani 👀</h2>
+<p>Ini bukan barcode biasa.</p>
+<p><b>Scan pakai kamera HP untuk membuka pesan rahasia dari Desi.</b></p>
+<img class="qr" src="qr_love_jeyden.png" alt="Love QR untuk Jeyden">
+<div class="secret">💙 <b>Pesan rahasianya:</b><br>Semoga Jeyden selalu punya alasan untuk tersenyum hari ini. Jangan lupa, ada yang selalu mendoakan yang baik-baik buat kamu. 🤍</div>
+<br>
+<p class="mini">Made with 💙 by Desi</p>
+<button class="white" onclick="location.reload()">Mulai dari awal 🔄</button>
+</div></section>
+
+<script>
+function next(n){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('s'+n).classList.add('active');scrollTo({top:0,behavior:'smooth'})}
+let chosen=false;
+function chooseBox(n){
+ if(chosen)return;chosen=true;
+ let text=n===2?'YAHHH 😭💙 Dapet kotak yang isinya hadiah paling bagus!':'Hehe, hampir 😭💙 Tapi karena ini hadiah dari Desi, semuanya tetap dapat bonus.';
+ document.getElementById('boxResult').innerHTML=text;
+ document.getElementById('boxResult').style.display='block';
+ document.getElementById('boxNext').style.display='inline-block';
+}
+let score=0,time=15,playing=false,timer;
+function startGame(){
+ if(playing)return;score=0;time=15;playing=true;
+ document.getElementById('score').textContent=0;document.getElementById('time').textContent=15;document.getElementById('gameMsg').textContent='';spawn();
+ timer=setInterval(()=>{time--;document.getElementById('time').textContent=time;if(time<=0){playing=false;clearInterval(timer);document.getElementById('area').innerHTML='';document.getElementById('gameMsg').textContent=score>=10?'GILAAA 😭💙 Jeyden jago!':'Lumayan 😭💙 yang penting bukan nilai rapor.'}},1000)
+}
+function spawn(){
+ if(!playing)return;let a=document.getElementById('area');a.innerHTML='';
+ let h=document.createElement('span');h.className='heart';h.textContent=['💙','💗','💙'][Math.floor(Math.random()*3)];
+ h.style.left=(Math.random()*85+5)+'%';h.style.top=(Math.random()*75+5)+'%';
+ h.onclick=()=>{score++;document.getElementById('score').textContent=score;spawn()};a.appendChild(h)
+}
+for(let i=0;i<16;i++){let x=document.createElement('span');x.className='float';x.textContent=['💙','☁️','✦','🫧'][Math.floor(Math.random()*4)];x.style.left=Math.random()*100+'vw';x.style.animationDuration=(7+Math.random()*8)+'s';x.style.animationDelay=(-Math.random()*10)+'s';x.style.fontSize=(14+Math.random()*17)+'px';document.getElementById('decor').appendChild(x)}
+</script>
+</body>
+</html>
