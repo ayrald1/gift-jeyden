@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little Reminder for Biru 💙</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  background:linear-gradient(135deg,#eaf7ff,#b9ddff,#f7fbff);
+  color:#24445d;min-height:100vh;overflow-x:hidden
+}
+.float{position:fixed;pointer-events:none;opacity:.55;animation:float 9s linear infinite;z-index:0}
+@keyframes float{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-15vh) rotate(180deg)}}
+.page{display:none;min-height:100vh;align-items:center;justify-content:center;padding:22px;position:relative;z-index:1}
+.page.active{display:flex}
+.card{
+  width:min(94vw,650px);background:rgba(255,255,255,.92);
+  border-radius:30px;padding:30px 23px;text-align:center;
+  box-shadow:0 18px 55px rgba(35,108,160,.18)
+}
+.icon{font-size:5rem;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+h1{font-size:clamp(2.1rem,9vw,3.5rem);color:#1768ad;line-height:1.05;margin:14px 0}
+h2{color:#1768ad}
+p{line-height:1.7}
+button{
+ border:0;border-radius:999px;padding:13px 21px;margin:6px;
+ font-size:1rem;font-weight:700;cursor:pointer;transition:.2s
+}
+button:hover{transform:translateY(-2px)}
+.primary{background:#2785d5;color:#fff}
+.soft{background:#e9f6ff;color:#1768ad}
+.joke{background:#fff2f7;color:#b44d77}
+.badge{display:inline-block;background:#e6f4ff;color:#1768ad;padding:7px 14px;border-radius:99px;font-weight:700}
+.note{
+ background:#eff9ff;border:1px dashed #91c6e7;border-radius:20px;
+ padding:17px;margin:18px 0
+}
+.foods{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0}
+.food{
+ background:#f3faff;border:2px solid #d5ecfa;border-radius:20px;
+ padding:16px;width:120px;cursor:pointer
+}
+.food .emoji{font-size:2.8rem;display:block}
+#foodResult{font-weight:700;color:#1768ad;min-height:30px}
+.gamebox{
+ background:#edf8ff;border-radius:23px;padding:15px;margin-top:15px
+}
+.arena{
+ height:260px;background:linear-gradient(#dff3ff,#b9e0fa);
+ border-radius:18px;position:relative;overflow:hidden
+}
+.target{position:absolute;font-size:38px;cursor:pointer;user-select:none}
+.stats{font-weight:800;color:#1768ad;margin:12px}
+.choice{
+ display:flex;justify-content:center;gap:10px;flex-wrap:wrap
+}
+.choice button{min-width:130px}
+.result{
+ display:none;background:#eff9ff;border-radius:20px;padding:18px;margin-top:15px
+}
+.progress{height:9px;background:#e5f2fa;border-radius:99px;overflow:hidden;margin:20px 0}
+.bar{height:100%;width:0;background:#2584d8;transition:.3s}
+</style>
+</head>
+<body>
+
+<div id="decor"></div>
+
+<section class="page active" id="p1">
+<div class="card">
+  <div class="icon">💙</div>
+  <span class="badge">LITTLE REMINDER</span>
+  <h1>Hei Biru!</h1>
+  <p>Desi cuma mau ninggalin sedikit pesan buat hari ini.</p>
+  <div class="note">
+    <b>Ga perlu jadi manusia super setiap hari.</b><br>
+    Kalau capek, istirahat. Kalau banyak pikiran, pelan-pelan aja.
+  </div>
+  <button class="primary" onclick="next(2)">Buka pesannya ✨</button>
+  <button class="joke" onclick="joke()">Aku males 😭</button>
+  <p id="jokeText"></p>
+</div>
+</section>
+
+<section class="page" id="p2">
+<div class="card">
+  <div class="icon">🌤️</div>
+  <h2>Hari ini semangatnya dikit aja</h2>
+  <p>
+    Ga harus langsung produktif banget. Selesaikan satu hal dulu,
+    terus lanjut lagi kalau masih punya tenaga.
+  </p>
+  <div class="note">
+    💙 <b>Reminder dari Desi:</b><br>
+    jangan lupa makan, minum, dan istirahat.
+    Jangan sampai sibuk sampai perut protes duluan 😭
+  </div>
+  <button class="primary" onclick="next(3)">Aku ingat makan 🍜</button>
+</div>
+</section>
+
+<section class="page" id="p3">
+<div class="card">
+  <h2>🍜 Pertanyaan sangat penting</h2>
+  <p><b>Hari ini sudah makan belum?</b></p>
+  <div class="foods">
+    <div class="food" onclick="food('sudah')"><span class="emoji">🍚</span>Sudah dong</div>
+    <div class="food" onclick="food('belum')"><span class="emoji">🍜</span>Belum 😭</div>
+    <div class="food" onclick="food('nanti')"><span class="emoji">🗿</span>Nanti</div>
+  </div>
+  <p id="foodResult"></p>
+  <button class="primary" id="foodNext" style="display:none" onclick="next(4)">Lanjut 🎮</button>
+</div>
+</section>
+
+<section class="page" id="p4">
+<div class="card">
+  <span class="badge">MINI GAME</span>
+  <h2>💙 Tangkap Biru!</h2>
+  <p>Klik 💙 sebanyak mungkin sebelum waktunya habis.</p>
+  <div class="gamebox">
+    <div class="stats">💙 <span id="score">0</span> &nbsp; | &nbsp; ⏱️ <span id="time">15</span></div>
+    <div class="arena" id="arena"></div>
+  </div>
+  <button class="primary" onclick="startGame()">Mulai! 🚀</button>
+  <p id="gameResult"></p>
+  <button class="soft" onclick="next(5)">Skip game 🗿</button>
+</div>
+</section>
+
+<section class="page" id="p5">
+<div class="card">
+  <div class="icon">🫧</div>
+  <h2>Bonus pesan receh</h2>
+  <div class="note">
+    Kalau hari ini rasanya berantakan...
+    <br><br>
+    <b>Tenang.</b><br>
+    Rambut berantakan juga masih bisa disisir. 😭
+  </div>
+  <p>Jadi jangan langsung menyerah cuma gara-gara satu hari ga sesuai rencana.</p>
+  <button class="joke" onclick="randomJoke()">Klik kalau butuh lawakan 🗿</button>
+  <p id="randomJoke"></p>
+  <button class="primary" onclick="next(6)">Pesan terakhir 💙</button>
+</div>
+</section>
+
+<section class="page" id="p6">
+<div class="card">
+  <div class="icon">🌙</div>
+  <h2>Untuk hari Biru</h2>
+  <div class="note">
+    <p><b>Jaga diri baik-baik, ya.</b></p>
+    <p>
+      Makan yang cukup, minum air, istirahat kalau capek,
+      dan jangan terlalu keras sama diri sendiri.
+    </p>
+    <p>
+      Semoga hari ini ada satu hal kecil yang bikin Biru senyum. 💙
+    </p>
+  </div>
+  <p><b>Semangat terus. Pelan-pelan juga tetap maju.</b></p>
+  <p>— Desi 🌷</p>
+  <button class="soft" onclick="next(1)">Lihat lagi 🔄</button>
+</div>
+</section>
+
+<script>
+function next(n){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById('p'+n).classList.add('active');
+ window.scrollTo(0,0);
+}
+
+const jokes=[
+ "Oke. Dicatat: Biru memilih kemalasan. 😭",
+ "Tombol males berhasil ditekan. Produktivitas langsung menghilang. 🗿",
+ "Ga apa-apa males. Tapi makan tetap wajib. 😭🍜"
+];
+function joke(){
+ document.getElementById('jokeText').textContent=jokes[Math.floor(Math.random()*jokes.length)];
+}
+
+function food(x){
+ const r=document.getElementById('foodResult');
+ if(x==='sudah') r.textContent='Mantap! Perut aman, Desi tenang. 💙';
+ if(x==='belum') r.textContent='HEH 😭 sana makan dulu. Website ini ga akan kabur.';
+ if(x==='nanti') r.textContent='“Nanti” adalah musuh terbesar jam makan. 🗿🍜';
+ document.getElementById('foodNext').style.display='inline-block';
+}
+
+let playing=false,score=0,time=15,timer;
+function startGame(){
+ if(playing)return;
+ playing=true;score=0;time=15;
+ document.getElementById('score').textContent=0;
+ document.getElementById('time').textContent=15;
+ document.getElementById('gameResult').textContent='';
+ spawnTarget();
+ timer=setInterval(()=>{
+   time--;
+   document.getElementById('time').textContent=time;
+   if(time<=0){
+     playing=false;clearInterval(timer);
+     document.getElementById('arena').innerHTML='';
+     let msg=score>=15?'WOI PRO PLAYER 😭💙':score>=8?'Lumayan banget! 💙':'Yang penting ikut main. 😭';
+     document.getElementById('gameResult').textContent=msg;
+   }
+ },1000);
+}
+function spawnTarget(){
+ if(!playing)return;
+ const a=document.getElementById('arena');a.innerHTML='';
+ const t=document.createElement('span');
+ t.className='target';t.textContent=Math.random()>.18?'💙':'💫';
+ t.style.left=(Math.random()*82+5)+'%';
+ t.style.top=(Math.random()*70+5)+'%';
+ t.onclick=()=>{score++;document.getElementById('score').textContent=score;spawnTarget()};
+ a.appendChild(t);
+}
+
+function randomJoke(){
+ const arr=[
+  'Dokter: “Kurangi begadang.” Biru: “Baik.” Jam 2 pagi: “Halo lagi.” 😭',
+  'Kalau hidup terasa berat, coba cek... mungkin belum makan. 🗿',
+  'Biru hari ini: 10% produktif, 90% mencari tombol skip. 😭'
+ ];
+ document.getElementById('randomJoke').textContent=arr[Math.floor(Math.random()*arr.length)];
+}
+
+for(let i=0;i<14;i++){
+ const x=document.createElement('div');
+ x.className='float';
+ x.textContent=['💙','☁️','✦','🫧'][Math.floor(Math.random()*4)];
+ x.style.left=Math.random()*100+'vw';
+ x.style.fontSize=(14+Math.random()*22)+'px';
+ x.style.animationDuration=(7+Math.random()*9)+'s';
+ x.style.animationDelay=(-Math.random()*12)+'s';
+ document.getElementById('decor').appendChild(x);
+}
+</script>
+</body>
+</html>
